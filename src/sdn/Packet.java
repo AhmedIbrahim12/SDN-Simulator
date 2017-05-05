@@ -9,13 +9,13 @@ package sdn;
  *
  * @author Ahmed Ibrahim
  */
-public class packet {
+public class Packet {
 
     String srcIP;
     String destIP;
     String data;
 
-    public packet(String sIP, String dIP, String msg) {
+    public Packet(String sIP, String dIP, String msg) {
         this.srcIP = sIP;
         this.destIP = dIP;
         this.data = msg;
