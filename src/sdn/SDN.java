@@ -15,7 +15,8 @@ public class SDN {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        MainWindow t = new MainWindow();
+        t.setVisible(true);
     }
-    
+
 }
