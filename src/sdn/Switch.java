@@ -7,14 +7,14 @@ package sdn;
 
 /**
  *
- * @author Ahmed Ibrahim
+ * @author Mohamed El-Shaer
  */
-public class Controller extends Device{
+public class Switch extends Device{
 
-    public Controller(int n, String imagePath) {
+    public Switch(int n, String imagePath) {
         super(n, imagePath);
     }
 
 
-    
+
 }

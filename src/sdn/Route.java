@@ -9,12 +9,11 @@ package sdn;
  *
  * @author Ahmed Ibrahim
  */
-public class Controller extends Device{
-
-    public Controller(int n, String imagePath) {
-        super(n, imagePath);
+public class Route {
+    String parentIP;
+    String childIP;
+    public Route(String pIP, String cIP){
+        this.parentIP = pIP;
+        this.childIP = cIP;
     }
-
-
-    
 }
