@@ -5,7 +5,10 @@
  */
 package sdn;
 
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -13,15 +16,23 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import static sdn.DeviceWindow.routingTable;
+
 /**
  *
  * @author Ahmed Ibrahim
  */
 public class MainWindow extends javax.swing.JFrame {
+
     int controllerNum = 1;
     int switchNum = 1;
-    ArrayList<Controller> controllersList = new ArrayList<Controller>();
-    ArrayList<Switch> switchList = new ArrayList<Switch>();
+    public static int flag = 0;
+    Point cont;
+    Point sw;
+    public static ArrayList<Controller> controllersList = new ArrayList<Controller>();
+    public static ArrayList<Switch> switchList = new ArrayList<Switch>();
+    static Graphics g;
+
     /**
      * Creates new form MainWindow
      */
@@ -56,7 +67,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         jLabel1.setText("       Controllers");
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/router.jpg"))); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/switch.jpg"))); // NOI18N
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -110,8 +121,8 @@ public class MainWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String imagePath="/images/controller.png";
-        Controller c = new Controller(this.controllerNum,imagePath);
+        String imagePath = "/images/controller.png";
+        Controller c = new Controller(this.controllerNum, imagePath);
         jPanel1.add(c.b);
         jPanel1.setLayout(null);
         setContentPane(jPanel1);
@@ -120,14 +131,27 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        String imagePath="/images/router.jpg";
-        Switch c = new Switch(this.switchNum,imagePath);
+        String imagePath = "/images/switch.jpg";
+        Switch c = new Switch(this.switchNum, imagePath);
         jPanel1.add(c.b);
         jPanel1.setLayout(null);
         setContentPane(jPanel1);
         switchNum++;
+        switchList.add(c);
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    public void paint(Graphics g) {
+        int flag = 0;
+        super.paint(g);
+            if(!routingTable.isEmpty()){
+            for (Route r : routingTable) {
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.drawLine(r.parentPos.x+128, r.parentPos.y+128, r.childPos.x+128, r.childPos.y+128);
+                repaint();
+            }
+            }
+        
+    }
     /**
      * @param args the command line arguments
      */

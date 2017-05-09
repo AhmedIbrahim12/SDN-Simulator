@@ -10,7 +10,7 @@ package sdn;
  * @author Ahmed Ibrahim
  */
 public class SDN {
-
+    public static MainWindow t;
     /**
      * @param args the command line arguments
      */

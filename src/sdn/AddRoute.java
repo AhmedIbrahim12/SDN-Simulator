@@ -4,21 +4,32 @@
  * and open the template in the editor.
  */
 package sdn;
+
+import java.awt.Graphics;
+import java.awt.Point;
 import static sdn.DeviceWindow.routingTable;
+import static sdn.MainWindow.controllersList;
+import static sdn.MainWindow.switchList;
+import static sdn.SDN.t;
+import static sdn.MainWindow.flag;
+
 /**
  *
  * @author Ahmed Ibrahim
  */
 public class AddRoute extends javax.swing.JFrame {
+
     String parentIP;
     String childIP;
+
     /**
      * Creates new form RoutingTable
      */
     public AddRoute() {
         initComponents();
     }
-    public AddRoute(String IP){
+
+    public AddRoute(String IP) {
         initComponents();
         this.parentIP = IP;
         this.jLabel2.setText(IP);
@@ -38,8 +49,6 @@ public class AddRoute extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Device IP : ");
 
@@ -102,10 +111,39 @@ public class AddRoute extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         this.childIP = jTextField1.getText();
-        Route r = new Route(this.parentIP,this.childIP);
-        routingTable.add(r);
-        this.setVisible(false);
+        Route r = new Route(this.parentIP, this.childIP);
+        connectDevices(r);
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    public void connectDevices(Route r) {
+        r.parentPos = searchForControllerNumber(r.parentIP);
+        r.childPos = searchForSwitchNumber(r.childIP);
+        routingTable.add(r);
+    }
+
+    public Point searchForControllerNumber(String IP) {
+        int index = -1;
+        for (Controller c : controllersList) {
+            if (c.IP.equals(IP)) {
+                index = c.DeviceNumber;
+            }
+        }
+
+        return controllersList.get(index - 1).b.getLocation();
+
+    }
+
+    public Point searchForSwitchNumber(String IP) {
+        int index = -1;
+        for (Switch s : switchList) {
+            if (s.IP.equals(IP)) {
+                index = s.DeviceNumber;
+            }
+        }
+        return switchList.get(index - 1).b.getLocation();
+
+    }
 
     /**
      * @param args the command line arguments

@@ -5,6 +5,8 @@
  */
 package sdn;
 
+import java.awt.Point;
+
 /**
  *
  * @author Ahmed Ibrahim
@@ -12,6 +14,8 @@ package sdn;
 public class Route {
     String parentIP;
     String childIP;
+    Point parentPos;
+    Point childPos;
     public Route(String pIP, String cIP){
         this.parentIP = pIP;
         this.childIP = cIP;
