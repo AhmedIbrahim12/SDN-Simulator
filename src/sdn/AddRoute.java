@@ -27,12 +27,14 @@ public class AddRoute extends javax.swing.JFrame {
      */
     public AddRoute() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     public AddRoute(String IP) {
         initComponents();
         this.parentIP = IP;
         this.jLabel2.setText(IP);
+        this.setLocationRelativeTo(null);
     }
 
     /**
