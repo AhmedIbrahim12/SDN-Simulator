@@ -5,18 +5,25 @@
  */
 package sdn;
 
+import java.awt.BasicStroke;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 import static sdn.DeviceWindow.routingTable;
 
 /**
@@ -33,6 +40,7 @@ public class MainWindow extends javax.swing.JFrame {
     public static ArrayList<Controller> controllersList = new ArrayList<Controller>();
     public static ArrayList<Switch> switchList = new ArrayList<Switch>();
     static Graphics g;
+    private Object frame;
 
     /**
      * Creates new form MainWindow
@@ -40,6 +48,15 @@ public class MainWindow extends javax.swing.JFrame {
     public MainWindow() {
         initComponents();
         this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+        addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent me) {
+                repaint();
+            }
+
+            public void mouseDragged(MouseEvent me) {
+                repaint();
+            }
+        });
     }
 
     /**
@@ -57,6 +74,7 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -67,6 +85,7 @@ public class MainWindow extends javax.swing.JFrame {
         jMenuItem5 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("SDN Simulator");
         setResizable(false);
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -94,22 +113,30 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel3.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), null));
         jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
+        jButton3.setText("Label");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(909, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -125,7 +152,9 @@ public class MainWindow extends javax.swing.JFrame {
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 469, Short.MAX_VALUE))
+                .addGap(41, 41, 41)
+                .addComponent(jButton3)
+                .addGap(0, 403, Short.MAX_VALUE))
         );
 
         jMenu1.setText("File");
@@ -240,6 +269,7 @@ public class MainWindow extends javax.swing.JFrame {
         setContentPane(jPanel1);
         switchNum++;
         switchList.add(c);
+        repaint();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -250,20 +280,41 @@ public class MainWindow extends javax.swing.JFrame {
         setContentPane(jPanel1);
         controllerNum++;
         controllersList.add(c);
+        repaint();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        Font myFont = new Font("Serif", Font.BOLD, 14);
+        JTextField textField = new JTextField("Your label");
+        textField.setBorder(BorderFactory.createEmptyBorder());
+        textField.setBackground(this.getBackground());
+        textField.setBounds(20, 20, 100, 100);
+        textField.setFont(myFont);
+        jPanel1.add(textField);
+        jPanel1.setLayout(null);
+        setContentPane(jPanel1);
+        DragListener drag = new DragListener();
+        textField.addMouseListener(drag);
+        textField.addMouseMotionListener(drag);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     public void paint(Graphics g) {
-        int flag = 0;
         super.paint(g);
-            if(!routingTable.isEmpty()){
+        if (!routingTable.isEmpty()) {
             for (Route r : routingTable) {
                 Graphics2D g2d = (Graphics2D) g;
-                g2d.drawLine(r.parentPos.x+128, r.parentPos.y+128, r.childPos.x+128, r.childPos.y+128);
-                repaint();
+                g2d.setStroke(new BasicStroke(10));
+                g2d.drawLine(r.parentPos.x + 64, r.parentPos.y + 170, r.childPos.x + 64, r.childPos.y + 40);
+                if (flag == 1) {
+                    repaint();
+                    flag = 0;
+                }
+
             }
-            }
-        
+        }
+
     }
+
     /**
      * @param args the command line arguments
      */
@@ -302,6 +353,7 @@ public class MainWindow extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

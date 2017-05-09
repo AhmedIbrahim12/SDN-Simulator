@@ -52,6 +52,8 @@ public class AddRoute extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
 
+        setTitle("ADD Route");
+
         jLabel1.setText("Device IP : ");
 
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
@@ -122,6 +124,7 @@ public class AddRoute extends javax.swing.JFrame {
         r.parentPos = searchForControllerNumber(r.parentIP);
         r.childPos = searchForSwitchNumber(r.childIP);
         routingTable.add(r);
+        flag = 1;
     }
 
     public Point searchForControllerNumber(String IP) {
