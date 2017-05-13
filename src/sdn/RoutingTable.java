@@ -19,7 +19,7 @@ public class RoutingTable extends javax.swing.JFrame {
     public RoutingTable() {
         initComponents();
         for (Route r : routingTable) {
-            jTextArea1.append("Controller IP : " + r.parentIP + "        "+" Switch IP : " + r.childIP+"\n");
+            jTextArea1.append(r.parentType+" IP : " + r.parentIP + "        "+r.childType+" IP : " + r.childIP+"\n");
         }
     }
 

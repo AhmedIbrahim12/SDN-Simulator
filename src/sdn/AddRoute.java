@@ -10,6 +10,7 @@ import java.awt.Point;
 import static sdn.DeviceWindow.routingTable;
 import static sdn.MainWindow.controllersList;
 import static sdn.MainWindow.switchList;
+import static sdn.MainWindow.hostList;
 import static sdn.SDN.t;
 import static sdn.MainWindow.flag;
 
@@ -121,33 +122,69 @@ public class AddRoute extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     public void connectDevices(Route r) {
-        r.parentPos = searchForControllerNumber(r.parentIP);
-        r.childPos = searchForSwitchNumber(r.childIP);
-        routingTable.add(r);
-        flag = 1;
+        if (searchForControllerNumber(r.parentIP) != null && searchForSwitchNumber(r.childIP) != null) {
+            r.parentPos = searchForControllerNumber(r.parentIP);
+            r.childPos = searchForSwitchNumber(r.childIP);
+            r.parentType = "Controller";
+            r.childType = "Switch";
+            routingTable.add(r);
+            flag = 1;
+        } else if (searchForSwitchNumber(r.parentIP) != null && searchForHostNumber(r.childIP) != null) {
+            r.parentPos = searchForSwitchNumber(r.parentIP);
+            r.childPos = searchForHostNumber(r.childIP);
+            r.parentType = "Switch";
+            r.childType = "Host";
+            routingTable.add(r);
+            flag = 1;
+
+        }
+
     }
 
     public Point searchForControllerNumber(String IP) {
         int index = -1;
-        for (Controller c : controllersList) {
-            if (c.IP.equals(IP)) {
-                index = c.DeviceNumber;
+        if (!controllersList.isEmpty()) {
+            for (Controller c : controllersList) {
+                if (c.IP.equals(IP)) {
+                    index = c.DeviceNumber;
+                    return controllersList.get(index - 1).b.getLocation();
+                }
             }
-        }
+            return null;
 
-        return controllersList.get(index - 1).b.getLocation();
+        } else {
+            return null;
+        }
 
     }
 
     public Point searchForSwitchNumber(String IP) {
         int index = -1;
-        for (Switch s : switchList) {
-            if (s.IP.equals(IP)) {
-                index = s.DeviceNumber;
+        if (!switchList.isEmpty()) {
+            for (Switch s : switchList) {
+                if (s.IP.equals(IP)) {
+                    index = s.DeviceNumber;
+                }
             }
+            return switchList.get(index - 1).b.getLocation();
+        } else {
+            return null;
         }
-        return switchList.get(index - 1).b.getLocation();
+    }
 
+    public Point searchForHostNumber(String IP) {
+        int index = -1;
+        if (!hostList.isEmpty()) {
+            for (Host c : hostList) {
+                if (c.IP.equals(IP)) {
+                    index = c.DeviceNumber;
+                }
+            }
+
+            return hostList.get(index - 1).b.getLocation();
+        } else {
+            return null;
+        }
     }
 
     /**

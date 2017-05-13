@@ -12,7 +12,8 @@ package sdn;
 public class Controller extends Device{
 
     public Controller(int n, String imagePath) {
-        super(n, imagePath);
+        super(n, imagePath,"Controller");
+        
     }
 
 

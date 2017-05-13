@@ -16,6 +16,8 @@ public class Route {
     String childIP;
     Point parentPos;
     Point childPos;
+    String parentType;
+    String childType;
     public Route(String pIP, String cIP){
         this.parentIP = pIP;
         this.childIP = cIP;

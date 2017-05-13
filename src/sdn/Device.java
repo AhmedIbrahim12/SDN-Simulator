@@ -27,11 +27,12 @@ public class Device extends DeviceWindow{
     JButton b;
     DeviceWindow w;
     Boolean state;
+    String deviceType;
     
-    
-    public Device(int n, String imagePath) {
+    public Device(int n, String imagePath,String dType) {
+        this.deviceType = dType;
         this.DeviceNumber = n;
-        w = new DeviceWindow(this,n);
+        w = new DeviceWindow(this,n,dType);
         Image play;
         try {
             play = ImageIO.read(getClass().getResource(imagePath));

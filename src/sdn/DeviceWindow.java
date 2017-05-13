@@ -6,17 +6,19 @@
 package sdn;
 
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 /**
  *
  * @author Ahmed Ibrahim
  */
 public class DeviceWindow extends javax.swing.JFrame {
-    
+
     String IP;
     Boolean state;
     Device device;
     public static ArrayList<Route> routingTable = new ArrayList<Route>();
+    public static ArrayList<String> ipList = new ArrayList<String>();
 
     /**
      * Creates new form ControllerWindow
@@ -27,12 +29,21 @@ public class DeviceWindow extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
     }
-    
-    public DeviceWindow(Device d, int n) {
+
+    public DeviceWindow(Device d, int n, String deviceType) {
         initComponents();
         this.device = d;
-        this.jLabel2.setText(Integer.toString(n));
+        this.jLabel2.setText(d.deviceType + " " + Integer.toString(n));
         this.setLocationRelativeTo(null);
+        if (deviceType.equals("Controller")) {
+            this.jButton4.setVisible(false);
+        } else if (deviceType.equals("Switch")) {
+            this.jButton4.setVisible(false);
+            this.jButton1.setVisible(false);
+        } else if (deviceType.equals("Host")) {
+            this.jButton1.setVisible(false);
+            this.jButton3.setVisible(false);
+        }
     }
 
     /**
@@ -53,6 +64,7 @@ public class DeviceWindow extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
 
         setTitle("Device window");
 
@@ -83,6 +95,8 @@ public class DeviceWindow extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setText("hii");
+
         jButton3.setText("Add New Route");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -91,6 +105,13 @@ public class DeviceWindow extends javax.swing.JFrame {
         });
 
         jLabel3.setText("Status :");
+
+        jButton4.setText("Send Packet");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -101,6 +122,8 @@ public class DeviceWindow extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton4)
+                        .addGap(18, 18, 18)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -111,27 +134,22 @@ public class DeviceWindow extends javax.swing.JFrame {
                             .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(204, 204, 204)
-                                .addComponent(jLabel2)))
-                        .addGap(0, 115, Short.MAX_VALUE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 36, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2)))
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
                 .addGap(12, 12, 12)
@@ -139,7 +157,8 @@ public class DeviceWindow extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jButton3))
+                    .addComponent(jButton3)
+                    .addComponent(jButton4))
                 .addContainerGap())
         );
 
@@ -152,11 +171,13 @@ public class DeviceWindow extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         this.IP = jTextField1.getText();
-        device.IP = IP;
-        System.out.println(this.IP);
-        jTextField1.enable(false);
-        jButton2.setVisible(false);
-        //System.out.println(this.IP);
+        if (validate(this.IP)&& !ipList.contains(IP)) {
+            device.IP = IP;
+            jTextField1.enable(false);
+            jButton2.setVisible(false);
+            ipList.add(IP);
+        }
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -168,6 +189,20 @@ public class DeviceWindow extends javax.swing.JFrame {
         AddRoute r = new AddRoute(this.IP);
         r.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        PacketWindow w = new PacketWindow(this.IP);
+        w.setVisible(true);
+    }//GEN-LAST:event_jButton4ActionPerformed
+    public void updateLog(String msg) {
+        this.jTextArea1.append(msg + "\n");
+    }
+    private static final Pattern PATTERN = Pattern.compile(
+            "^(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])$");
+
+    public static boolean validate(final String ip) {
+        return PATTERN.matcher(ip).matches();
+    }
 
     /**
      * @param args the command line arguments
@@ -209,6 +244,7 @@ public class DeviceWindow extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
