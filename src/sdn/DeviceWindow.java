@@ -177,6 +177,14 @@ public class DeviceWindow extends javax.swing.JFrame {
             jButton2.setVisible(false);
             ipList.add(IP);
         }
+        else if(!validate(this.IP)){
+            ErrorWindow ew = new ErrorWindow("Enter a correct IPv4 address");
+            ew.setVisible(true);
+        }
+        else if(ipList.contains(IP)){
+            ErrorWindow ew = new ErrorWindow("The IP you entered is used before");
+            ew.setVisible(true);
+        }
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
